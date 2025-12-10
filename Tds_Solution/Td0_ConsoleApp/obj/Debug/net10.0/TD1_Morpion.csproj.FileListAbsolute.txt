@@ -1,0 +1,15 @@
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\bin\Debug\net10.0\TD1_Morpion.exe
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\bin\Debug\net10.0\TD1_Morpion.deps.json
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\bin\Debug\net10.0\TD1_Morpion.runtimeconfig.json
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\bin\Debug\net10.0\TD1_Morpion.dll
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\bin\Debug\net10.0\TD1_Morpion.pdb
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\obj\Debug\net10.0\TD1_Morpion.GeneratedMSBuildEditorConfig.editorconfig
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\obj\Debug\net10.0\TD1_Morpion.AssemblyInfoInputs.cache
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\obj\Debug\net10.0\TD1_Morpion.AssemblyInfo.cs
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\obj\Debug\net10.0\TD1_Morpion.csproj.CoreCompileInputs.cache
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\obj\Debug\net10.0\TD1_Morpion.sourcelink.json
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\obj\Debug\net10.0\TD1_Morpion.dll
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\obj\Debug\net10.0\refint\TD1_Morpion.dll
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\obj\Debug\net10.0\TD1_Morpion.pdb
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\obj\Debug\net10.0\TD1_Morpion.genruntimeconfig.cache
+D:\CCI_Campus\Projets_local\M2\M2I_CSharp.NET\Tds_Solution\Td0_ConsoleApp\obj\Debug\net10.0\ref\TD1_Morpion.dll
