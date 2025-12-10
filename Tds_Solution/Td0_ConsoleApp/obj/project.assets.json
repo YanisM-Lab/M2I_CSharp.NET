@@ -14,9 +14,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\CCI_Campus\\Projets_local\\M2\\M2I_CSharp.NET\\Tds_Solution\\Td0_ConsoleApp\\Td0_ConsoleApp.csproj",
-      "projectName": "Td0_ConsoleApp",
-      "projectPath": "D:\\CCI_Campus\\Projets_local\\M2\\M2I_CSharp.NET\\Tds_Solution\\Td0_ConsoleApp\\Td0_ConsoleApp.csproj",
+      "projectUniqueName": "D:\\CCI_Campus\\Projets_local\\M2\\M2I_CSharp.NET\\Tds_Solution\\Td0_ConsoleApp\\TD1_Morpion.csproj",
+      "projectName": "TD1_Morpion",
+      "projectPath": "D:\\CCI_Campus\\Projets_local\\M2\\M2I_CSharp.NET\\Tds_Solution\\Td0_ConsoleApp\\TD1_Morpion.csproj",
       "packagesPath": "C:\\Users\\misti\\.nuget\\packages\\",
       "outputPath": "D:\\CCI_Campus\\Projets_local\\M2\\M2I_CSharp.NET\\Tds_Solution\\Td0_ConsoleApp\\obj\\",
       "projectStyle": "PackageReference",
