@@ -4,11 +4,11 @@ using System.Text;
 
 namespace TD1_Morpion
 {
-    internal class Partie : IPartie
+    public class Partie : IPartie
     {
         public Partie() { }
 
-        static bool PartieTerminee(List<List<char>> grille, char symbole)
+        public bool PartieTerminee(List<List<char>> grille, char symbole)
         {
             bool ligneGagnante = grille.Any(row => row.All(cell => cell == symbole));
 

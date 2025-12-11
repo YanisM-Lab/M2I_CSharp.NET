@@ -1,64 +1,94 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
-namespace TD1_Morpion;
-
-internal class Jouer
+namespace TD1_Morpion
 {
-    public IPartie partie;
-    public List<Joueur> joueurs;
-    public IGrille grille;
-
-    public Jouer(IPartie partie, List<Joueur> joueurs, IGrille grille)
+    internal class Jouer
     {
-        this.partie = partie;
-        this.joueurs = joueurs;
-        this.grille = grille;
-    }
+        public IPartie partie;
+        public List<Joueur> joueurs;
+        public IGrille grille;
 
-    public void jouerTour()
-    {
-        int tour = 0;
-        EtatPartie etatPartie = EtatPartie.EnCours;
-        List<List<char>> grilleMorpion = grille.ConstruireGrille();
+        public int tour { get; set; } = 0;
+        public char symboleActuel { get; private set; }
 
-        while (etatPartie == EtatPartie.EnCours)
+        private readonly Random _random = new Random();   // <--- random partagé
+
+        public Jouer(IPartie partie, List<Joueur> joueurs, IGrille grille)
         {
-            char symboleActuel = (tour % 2 == 0) ? joueurs[0].symboleChoisi : joueurs[1].symboleChoisi;
-            Console.WriteLine($"\nTour du joueur {(tour % 2) + 1} ({symboleActuel}). Entrez vos coordonnées (ligne et colonne) séparées par un espace :");
+            this.partie = partie;
+            this.joueurs = joueurs;
+            this.grille = grille;
+        }
 
-            string[] entrees = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        public string[] jouerTour(List<List<char>> grilleMorpion)
+        {
+            // Déterminer le joueur courant
+            Joueur joueurActuel = (tour % 2 == 0) ? joueurs[0] : joueurs[1];
+            symboleActuel = joueurActuel.symboleChoisi;
 
-            if (entrees.Length != 2 ||
-                !int.TryParse(entrees[0], out int ligne) ||
-                !int.TryParse(entrees[1], out int colonne) ||
-                ligne < 0 || ligne > 2 || colonne < 0 || colonne > 2 ||
-                grilleMorpion[ligne][colonne] != ' ')
+            if (joueurActuel.estIA)
             {
-                Console.WriteLine("Coup invalide. Veuillez réessayer.\n");
-                continue;
-            }
+                // --- Tour de l'IA : choix random d'une case libre ---
+                var casesLibres = (from i in Enumerable.Range(0, 3)
+                                   from j in Enumerable.Range(0, 3)
+                                   where grilleMorpion[i][j] == ' '
+                                   select new { i, j }).ToList();
 
-            Console.WriteLine("\n");
-            grilleMorpion[ligne][colonne] = symboleActuel;
-            grille.AfficherGrille(grilleMorpion);
+                if (!casesLibres.Any())
+                {
+                    // Plus aucune case libre
+                    return Array.Empty<string>();
+                }
 
-            if (partie.PartieTerminee(grilleMorpion, symboleActuel))
-            {
-                etatPartie = EtatPartie.Gagne;
-                Console.WriteLine($"\nLe joueur {(tour % 2) + 1} ({symboleActuel}) a gagné !\n");
-            }
-            else if (tour == 8) // 9 cases jouées (0 à 8)
-            {
-                etatPartie = EtatPartie.Nul;
-                Console.WriteLine("\nLa partie est nulle !\n");
+                var coup = casesLibres[_random.Next(casesLibres.Count)];
+
+                Console.WriteLine(
+                    $"\nTour {tour + 1} - {joueurActuel.nom} (IA, {symboleActuel}) joue en {coup.i} {coup.j}"
+                );
+
+                // On renvoie les coordonnées comme si elles venaient de la console
+                return new[] { coup.i.ToString(), coup.j.ToString() };
             }
             else
             {
-                tour++;
+                // --- Tour d'un humain ---
+                Console.WriteLine(
+                    $"\nTour {tour + 1} - {joueurActuel.nom} ({symboleActuel}). " +
+                    "Entrez vos coordonnées (ligne et colonne) séparées par un espace :"
+                );
+
+                string? saisie = Console.ReadLine();
+                return (saisie ?? string.Empty)
+                       .Split(' ', StringSplitOptions.RemoveEmptyEntries);
             }
         }
 
+        public bool coupValide(string[] entrees, List<List<char>> grilleMorpion)
+        {
+            if (entrees.Length != 2 ||
+                !int.TryParse(entrees[0], out int ligne) ||
+                !int.TryParse(entrees[1], out int colonne) ||
+                ligne < 0 || ligne > 2 ||
+                colonne < 0 || colonne > 2)
+            {
+                Console.WriteLine("Coup invalide (format ou coordonnées). Veuillez réessayer.\n");
+                return false;
+            }
+
+            if (grilleMorpion[ligne][colonne] != ' ')
+            {
+                Console.WriteLine("Coup invalide : la case est déjà occupée.\n");
+                return false;
+            }
+
+            // Coup valide → on joue le coup
+            grilleMorpion[ligne][colonne] = symboleActuel;
+            Console.WriteLine();
+            grille.AfficherGrille(grilleMorpion);
+
+            return true;
+        }
     }
 }

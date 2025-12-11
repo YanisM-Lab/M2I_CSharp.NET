@@ -4,8 +4,8 @@ using System.Text;
 
 namespace TD1_Morpion
 {
-    internal interface IPartie
+    public interface IPartie
     {
-        bool PartieTerminee(List<List<char>> grille, char symbole);
+        public bool PartieTerminee(List<List<char>> grille, char symbole);
     }
 }
