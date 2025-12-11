@@ -1,0 +1,15 @@
+﻿################################################################################
+# Ce fichier .gitignore a été automatiquement créé par Microsoft(R) Visual Studio.
+################################################################################
+
+/Tds_Solution/Td0_ConsoleApp/bin/Debug/net10.0/TD1_Morpion.exe
+/Tds_Solution/Td0_ConsoleApp/bin/Debug/net10.0/TD1_Morpion.dll
+/Tds_Solution/Td0_ConsoleApp/bin/Debug/net10.0/TD1_Morpion.pdb
+/Tds_Solution/Td0_ConsoleApp/obj/Debug/net10.0/ref/TD1_Morpion.dll
+/Tds_Solution/Td0_ConsoleApp/obj/Debug/net10.0/refint/TD1_Morpion.dll
+/Tds_Solution/Td0_ConsoleApp/obj/Debug/net10.0/apphost.exe
+/Tds_Solution/Td0_ConsoleApp/obj/Debug/net10.0/TD1_Morpion.AssemblyInfo.cs
+/Tds_Solution/Td0_ConsoleApp/obj/Debug/net10.0/TD1_Morpion.AssemblyInfoInputs.cache
+/Tds_Solution/Td0_ConsoleApp/obj/Debug/net10.0/TD1_Morpion.dll
+/Tds_Solution/Td0_ConsoleApp/obj/Debug/net10.0/TD1_Morpion.pdb
+/Tds_Solution/Td0_ConsoleApp/obj/Debug/net10.0/TD1_Morpion.sourcelink.json
