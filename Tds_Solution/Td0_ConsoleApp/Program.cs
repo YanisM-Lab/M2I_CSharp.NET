@@ -92,7 +92,7 @@ namespace Td0_ConsoleApp
                 else
                 {
                     jouer.tour++;
-                }
+                }//
             }
 
             Console.WriteLine("Fin de la partie.");
