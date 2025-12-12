@@ -4,20 +4,18 @@ using System.Linq;
 
 namespace TD1_Morpion
 {
-    internal class Jouer
+    public class Jouer
     {
-        public IPartie partie;
         public List<Joueur> joueurs;
         public IGrille grille;
 
         public int tour { get; set; } = 0;
-        public char symboleActuel { get; private set; }
+        public char symboleActuel { get; set; }
 
         private readonly Random _random = new Random();   // <--- random partagé
 
-        public Jouer(IPartie partie, List<Joueur> joueurs, IGrille grille)
+        public Jouer(List<Joueur> joueurs, IGrille grille)
         {
-            this.partie = partie;
             this.joueurs = joueurs;
             this.grille = grille;
         }
@@ -38,7 +36,6 @@ namespace TD1_Morpion
 
                 if (!casesLibres.Any())
                 {
-                    // Plus aucune case libre
                     return Array.Empty<string>();
                 }
 

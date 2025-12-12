@@ -8,7 +8,6 @@ namespace Td0_ConsoleApp
     {
         public static void Main(string[] args)
         {
-            IPartie partie = new Partie();
             IGrille grille = new Grille();
 
             Console.WriteLine("Voulez-vous jouer contre l'ordinateur ? (O/N)");
@@ -60,7 +59,7 @@ namespace Td0_ConsoleApp
             List<List<char>> grilleMorpion = grille.ConstruireGrille();
             grille.AfficherGrille(grilleMorpion);
 
-            Jouer jouer = new Jouer(partie, joueurs, grille);
+            Jouer jouer = new Jouer(joueurs, grille);
 
             EtatPartie etatPartie = EtatPartie.EnCours;
             string[] coordonneesSaisies;
@@ -75,7 +74,7 @@ namespace Td0_ConsoleApp
                     continue;
                 }
 
-                if (partie.PartieTerminee(grilleMorpion, jouer.symboleActuel))
+                if (grille.PartieTerminee(grilleMorpion, jouer.symboleActuel))
                 {
                     etatPartie = EtatPartie.Gagne;
 
