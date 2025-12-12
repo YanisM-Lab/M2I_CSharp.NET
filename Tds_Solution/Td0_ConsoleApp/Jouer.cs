@@ -45,6 +45,10 @@ namespace TD1_Morpion
                     $"\nTour {tour + 1} - {joueurActuel.nom} (IA, {symboleActuel}) joue en {coup.i} {coup.j}"
                 );
 
+                // Délai de refflexion simulé
+                Console.WriteLine("...");
+                Task.Delay(3000).Wait();
+
                 // On renvoie les coordonnées comme si elles venaient de la console
                 return new[] { coup.i.ToString(), coup.j.ToString() };
             }
