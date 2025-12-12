@@ -28,7 +28,7 @@ namespace TD1_Morpion
 
             if (joueurActuel.estIA)
             {
-                // --- Tour de l'IA : choix random d'une case libre ---
+                // ---- Tour de l'IA : choix random d'une case libre ----
                 var casesLibres = (from i in Enumerable.Range(0, 3)
                                    from j in Enumerable.Range(0, 3)
                                    where grilleMorpion[i][j] == ' '
