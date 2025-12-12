@@ -1,3 +1,4 @@
 <Solution>
-  <Project Path="Td0_ConsoleApp/TD1_Morpion.csproj" />
+  <Project Path="Td0_ConsoleApp/TD_Morpion.csproj" />
+  <Project Path="Test_TD_Morpion/Test_TD_Morpion.csproj" Id="d63fb35b-dbce-4594-a5b0-e74a91e3b626" />
 </Solution>
