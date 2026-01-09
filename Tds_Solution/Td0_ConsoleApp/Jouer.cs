@@ -28,7 +28,7 @@ namespace TD1_Morpion
 
             if (joueurActuel.estIA)
             {
-                // --- Tour de l'IA : choix random d'une case libre ---
+                // ---- Tour de l'IA : choix random d'une case libre ----
                 var casesLibres = (from i in Enumerable.Range(0, 3)
                                    from j in Enumerable.Range(0, 3)
                                    where grilleMorpion[i][j] == ' '
@@ -44,6 +44,10 @@ namespace TD1_Morpion
                 Console.WriteLine(
                     $"\nTour {tour + 1} - {joueurActuel.nom} (IA, {symboleActuel}) joue en {coup.i} {coup.j}"
                 );
+
+                // Délai de refflexion simulé
+                Console.WriteLine("...");
+                Task.Delay(3000).Wait();
 
                 // On renvoie les coordonnées comme si elles venaient de la console
                 return new[] { coup.i.ToString(), coup.j.ToString() };
