@@ -6,5 +6,5 @@ namespace TD1_Morpion;
 
 public interface IJoueur
 {
-    public void choisirSymbole();
+    void choisirSymbole();
 }

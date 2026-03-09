@@ -1,40 +1,39 @@
 ﻿using System;
 
-namespace TD1_Morpion
+namespace TD1_Morpion;
+
+public class Joueur : IJoueur
 {
-    public class Joueur : IJoueur
+    public string nom { get; set; }
+    public char symboleChoisi { get; set; }
+    public bool estIA { get; set; }
+
+    public Joueur(string nom, bool estIA = false)
     {
-        public string nom { get; set; }
-        public char symboleChoisi { get; set; }
-        public bool estIA { get; set; }
+        this.nom = string.IsNullOrWhiteSpace(nom) ? "Joueur" : nom.Trim();
+        this.symboleChoisi = ' ';
+        this.estIA = estIA;
+    }
 
-        public Joueur(string nom, bool estIA = false)
+    public void choisirSymbole()
+    {
+        while (true)
         {
-            this.nom = string.IsNullOrWhiteSpace(nom) ? "Joueur" : nom;
-            this.symboleChoisi = ' ';
-            this.estIA = estIA;
-        }
+            Console.WriteLine($"{nom}, veuillez choisir votre symbole (X ou O) :");
+            string? saisie = Console.ReadLine();
 
-        public void choisirSymbole()
-        {
-            while (true)
+            if (!string.IsNullOrWhiteSpace(saisie))
             {
-                Console.WriteLine($"{nom}, veuillez choisir votre symbole (X ou O) :");
-                string? saisie = Console.ReadLine();
-
-                if (!string.IsNullOrWhiteSpace(saisie))
+                char symbole = char.ToUpperInvariant(saisie[0]);
+                if (symbole == 'X' || symbole == 'O')
                 {
-                    char symbole = char.ToUpperInvariant(saisie[0]);
-                    if (symbole == 'X' || symbole == 'O')
-                    {
-                        this.symboleChoisi = symbole;
-                        Console.WriteLine($"{nom} jouera avec le symbole '{symbole}'.");
-                        return;
-                    }
+                    symboleChoisi = symbole;
+                    Console.WriteLine($"{nom} jouera avec le symbole '{symbole}'.");
+                    return;
                 }
-
-                Console.WriteLine("Symbole invalide. Veuillez choisir un symbole valide : X ou O.\n");
             }
+
+            Console.WriteLine("Symbole invalide. Veuillez choisir X ou O.\n");
         }
     }
 }
