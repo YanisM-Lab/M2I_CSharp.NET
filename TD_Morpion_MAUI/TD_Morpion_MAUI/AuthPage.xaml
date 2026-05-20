@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TD_Morpion_MAUI.AuthPage"
+             Title="Connexion">
+
+    <Grid Padding="24"
+          RowDefinitions="*,Auto,*"
+          BackgroundColor="{AppThemeBinding Light=#F7F7FB, Dark=#121212}">
+
+        <Border Grid.Row="1"
+                Padding="20"
+                StrokeThickness="1"
+                Stroke="{AppThemeBinding Light=#DADCE0, Dark=#303134}"
+                BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1E1E1E}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+
+            <VerticalStackLayout Spacing="14">
+                <Label Text="Morpion"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#202124, Dark=#FFFFFF}" />
+
+                <Label x:Name="ModeLabel"
+                       Text="Connexion"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#202124, Dark=#FFFFFF}" />
+
+                <Entry x:Name="UserNameEntry"
+                       Placeholder="Nom d'utilisateur"
+                       IsVisible="False"
+                       ReturnType="Next" />
+
+                <Entry x:Name="EmailEntry"
+                       Placeholder="Email"
+                       Keyboard="Email"
+                       ReturnType="Next" />
+
+                <Entry x:Name="PasswordEntry"
+                       Placeholder="Mot de passe"
+                       IsPassword="True"
+                       ReturnType="Done" />
+
+                <Label x:Name="ErrorLabel"
+                       FontSize="13"
+                       TextColor="#B3261E"
+                       IsVisible="False" />
+
+                <Button x:Name="SubmitButton"
+                        Text="Se connecter"
+                        Clicked="OnSubmitClicked"
+                        HorizontalOptions="Fill" />
+
+                <Button x:Name="SwitchModeButton"
+                        Text="Creer un compte"
+                        Clicked="OnSwitchModeClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="{AppThemeBinding Light=#185ABC, Dark=#8AB4F8}"
+                        HorizontalOptions="Fill" />
+
+                <Label x:Name="ApiUrlLabel"
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light=#5F6368, Dark=#C7C7C7}" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>
