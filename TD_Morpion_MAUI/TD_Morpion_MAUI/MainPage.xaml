@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TD_Morpion_MAUI.MainPage"
+             Title="Morpion">
+
+    <Grid Padding="24"
+          RowDefinitions="Auto,Auto,*,Auto"
+          RowSpacing="20"
+          BackgroundColor="{AppThemeBinding Light=#F7F7FB, Dark=#121212}">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="6">
+            <Label Text="Morpion"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light=#202124, Dark=#FFFFFF}" />
+            <Label x:Name="ApiUrlLabel"
+                   FontSize="13"
+                   TextColor="{AppThemeBinding Light=#5F6368, Dark=#C7C7C7}" />
+        </VerticalStackLayout>
+
+        <Border Grid.Row="1"
+                Padding="14"
+                StrokeThickness="1"
+                Stroke="{AppThemeBinding Light=#DADCE0, Dark=#303134}"
+                BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1E1E1E}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="6">
+                <Label x:Name="StatusLabel"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#202124, Dark=#FFFFFF}" />
+                <Label x:Name="DetailsLabel"
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light=#5F6368, Dark=#C7C7C7}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Grid Grid.Row="2"
+              HorizontalOptions="Center"
+              VerticalOptions="Center"
+              WidthRequest="330"
+              HeightRequest="330"
+              ColumnDefinitions="*,*,*"
+              RowDefinitions="*,*,*"
+              ColumnSpacing="8"
+              RowSpacing="8">
+            <Button x:Name="Cell0" Grid.Row="0" Grid.Column="0" Clicked="OnCellClicked" />
+            <Button x:Name="Cell1" Grid.Row="0" Grid.Column="1" Clicked="OnCellClicked" />
+            <Button x:Name="Cell2" Grid.Row="0" Grid.Column="2" Clicked="OnCellClicked" />
+            <Button x:Name="Cell3" Grid.Row="1" Grid.Column="0" Clicked="OnCellClicked" />
+            <Button x:Name="Cell4" Grid.Row="1" Grid.Column="1" Clicked="OnCellClicked" />
+            <Button x:Name="Cell5" Grid.Row="1" Grid.Column="2" Clicked="OnCellClicked" />
+            <Button x:Name="Cell6" Grid.Row="2" Grid.Column="0" Clicked="OnCellClicked" />
+            <Button x:Name="Cell7" Grid.Row="2" Grid.Column="1" Clicked="OnCellClicked" />
+            <Button x:Name="Cell8" Grid.Row="2" Grid.Column="2" Clicked="OnCellClicked" />
+        </Grid>
+
+        <Button Grid.Row="3"
+                Text="Nouvelle partie"
+                Clicked="OnNewGameClicked"
+                HorizontalOptions="Fill" />
+    </Grid>
+</ContentPage>
