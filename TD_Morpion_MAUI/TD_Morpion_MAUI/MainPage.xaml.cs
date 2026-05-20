@@ -1,19 +1,32 @@
 using TD_Morpion_MAUI.Api;
 using TD_Morpion_MAUI.Api.Models;
+using TD_Morpion_MAUI.Auth;
+using TD_Morpion_MAUI.Navigation;
 
 namespace TD_Morpion_MAUI;
 
 public partial class MainPage : ContentPage
 {
 	private readonly IMorpionApiClient apiClient;
+	private readonly IAuthSession authSession;
+	private readonly IAppNavigator navigator;
 	private readonly MorpionApiOptions apiOptions;
 	private readonly Button[] cells;
+	private readonly List<GameResponseDto> games = [];
 	private GameResponseDto? currentGame;
 	private bool isBusy;
+	private bool isLoadingPicker;
+	private bool hasLoaded;
 
-	public MainPage(IMorpionApiClient apiClient, MorpionApiOptions apiOptions)
+	public MainPage(
+		IMorpionApiClient apiClient,
+		IAuthSession authSession,
+		IAppNavigator navigator,
+		MorpionApiOptions apiOptions)
 	{
 		this.apiClient = apiClient;
+		this.authSession = authSession;
+		this.navigator = navigator;
 		this.apiOptions = apiOptions;
 
 		InitializeComponent();
@@ -42,12 +55,55 @@ public partial class MainPage : ContentPage
 		}
 
 		ApiUrlLabel.Text = $"API: {apiOptions.BaseUrl}";
-		_ = StartNewGameAsync();
+		UpdateUserLabel();
+		RenderGame();
+	}
+
+	protected override async void OnAppearing()
+	{
+		base.OnAppearing();
+
+		if (hasLoaded)
+		{
+			return;
+		}
+
+		hasLoaded = true;
+		if (!authSession.IsAuthenticated && !await authSession.LoadAsync())
+		{
+			navigator.ShowAuthPage();
+			return;
+		}
+
+		UpdateUserLabel();
+		await LoadGamesAsync();
 	}
 
 	private async void OnNewGameClicked(object? sender, EventArgs e)
 	{
 		await StartNewGameAsync();
+	}
+
+	private async void OnReloadGamesClicked(object? sender, EventArgs e)
+	{
+		await LoadGamesAsync();
+	}
+
+	private void OnLogoutClicked(object? sender, EventArgs e)
+	{
+		authSession.Clear();
+		navigator.ShowAuthPage();
+	}
+
+	private void OnGameSelected(object? sender, EventArgs e)
+	{
+		if (isLoadingPicker || GamesPicker.SelectedIndex < 0 || GamesPicker.SelectedIndex >= games.Count)
+		{
+			return;
+		}
+
+		currentGame = games[GamesPicker.SelectedIndex];
+		RenderGame();
 	}
 
 	private async void OnCellClicked(object? sender, EventArgs e)
@@ -60,11 +116,36 @@ public partial class MainPage : ContentPage
 		await PlayMoveAsync(position);
 	}
 
+	private async Task LoadGamesAsync()
+	{
+		await RunApiActionAsync(async () =>
+		{
+			var userGames = await apiClient.GetGamesAsync();
+			games.Clear();
+			games.AddRange(userGames.OrderByDescending(game => game.UpdatedAtUtc));
+			RefreshGamesPicker();
+
+			currentGame = games.FirstOrDefault();
+			if (currentGame is null)
+			{
+				StatusLabel.Text = "Aucune partie";
+				DetailsLabel.Text = "Creez une nouvelle partie pour commencer.";
+				RenderGame();
+				return;
+			}
+
+			GamesPicker.SelectedIndex = 0;
+			RenderGame();
+		});
+	}
+
 	private async Task StartNewGameAsync()
 	{
 		await RunApiActionAsync(async () =>
 		{
 			currentGame = await apiClient.CreateGameAsync();
+			await LoadGamesAsync();
+			SelectCurrentGameInPicker();
 			RenderGame();
 		});
 	}
@@ -84,6 +165,14 @@ public partial class MainPage : ContentPage
 		await RunApiActionAsync(async () =>
 		{
 			currentGame = await apiClient.PlayMoveAsync(currentGame.Id, position);
+			var existingIndex = games.FindIndex(game => game.Id == currentGame.Id);
+			if (existingIndex >= 0)
+			{
+				games[existingIndex] = currentGame;
+				RefreshGamesPicker();
+				SelectCurrentGameInPicker();
+			}
+
 			RenderGame();
 		});
 	}
@@ -94,6 +183,11 @@ public partial class MainPage : ContentPage
 		{
 			SetBusy(true);
 			await action();
+		}
+		catch (UnauthorizedAccessException)
+		{
+			authSession.Clear();
+			navigator.ShowAuthPage();
 		}
 		catch (Exception exception)
 		{
@@ -106,10 +200,41 @@ public partial class MainPage : ContentPage
 		}
 	}
 
+	private void RefreshGamesPicker()
+	{
+		isLoadingPicker = true;
+		GamesPicker.Items.Clear();
+
+		foreach (var game in games)
+		{
+			GamesPicker.Items.Add($"{GetStatusText(game)} - {game.UpdatedAtUtc:dd/MM HH:mm}");
+		}
+
+		isLoadingPicker = false;
+	}
+
+	private void SelectCurrentGameInPicker()
+	{
+		if (currentGame is null)
+		{
+			GamesPicker.SelectedIndex = -1;
+			return;
+		}
+
+		var index = games.FindIndex(game => game.Id == currentGame.Id);
+		GamesPicker.SelectedIndex = index;
+	}
+
 	private void RenderGame()
 	{
 		if (currentGame is null)
 		{
+			foreach (var cell in cells)
+			{
+				cell.Text = string.Empty;
+				cell.IsEnabled = false;
+			}
+
 			return;
 		}
 
@@ -117,11 +242,18 @@ public partial class MainPage : ContentPage
 		{
 			var symbol = currentGame.Board[index];
 			cells[index].Text = symbol == '.' ? string.Empty : symbol.ToString();
-			cells[index].IsEnabled = currentGame.Status == "InProgress" && symbol == '.';
+			cells[index].IsEnabled = !isBusy && currentGame.Status == "InProgress" && symbol == '.';
 		}
 
 		StatusLabel.Text = GetStatusText(currentGame);
 		DetailsLabel.Text = GetDetailsText(currentGame);
+	}
+
+	private void UpdateUserLabel()
+	{
+		UserLabel.Text = authSession.CurrentUser is null
+			? "Non connecte"
+			: $"Connecte: {authSession.CurrentUser.UserName} ({authSession.CurrentUser.Email})";
 	}
 
 	private static string GetStatusText(GameResponseDto game)
@@ -153,7 +285,9 @@ public partial class MainPage : ContentPage
 		isBusy = value;
 		foreach (var cell in cells)
 		{
-			cell.IsEnabled = !value && currentGame?.Status == "InProgress" && string.IsNullOrEmpty(cell.Text);
+			cell.IsEnabled = !value
+				&& currentGame?.Status == "InProgress"
+				&& string.IsNullOrEmpty(cell.Text);
 		}
 	}
 }

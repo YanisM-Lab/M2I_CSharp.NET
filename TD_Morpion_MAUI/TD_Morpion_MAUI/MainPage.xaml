@@ -5,19 +5,33 @@
              Title="Morpion">
 
     <Grid Padding="24"
-          RowDefinitions="Auto,Auto,*,Auto"
+          RowDefinitions="Auto,Auto,Auto,*,Auto"
           RowSpacing="20"
           BackgroundColor="{AppThemeBinding Light=#F7F7FB, Dark=#121212}">
 
-        <VerticalStackLayout Grid.Row="0" Spacing="6">
-            <Label Text="Morpion"
-                   FontSize="32"
-                   FontAttributes="Bold"
-                   TextColor="{AppThemeBinding Light=#202124, Dark=#FFFFFF}" />
-            <Label x:Name="ApiUrlLabel"
-                   FontSize="13"
-                   TextColor="{AppThemeBinding Light=#5F6368, Dark=#C7C7C7}" />
-        </VerticalStackLayout>
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,Auto"
+              ColumnSpacing="12">
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Morpion"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#202124, Dark=#FFFFFF}" />
+                <Label x:Name="UserLabel"
+                       FontSize="13"
+                       TextColor="{AppThemeBinding Light=#5F6368, Dark=#C7C7C7}" />
+                <Label x:Name="ApiUrlLabel"
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light=#5F6368, Dark=#C7C7C7}" />
+            </VerticalStackLayout>
+
+            <Button Grid.Column="1"
+                    Text="Deconnexion"
+                    Clicked="OnLogoutClicked"
+                    VerticalOptions="Start"
+                    BackgroundColor="Transparent"
+                    TextColor="{AppThemeBinding Light=#B3261E, Dark=#F2B8B5}" />
+        </Grid>
 
         <Border Grid.Row="1"
                 Padding="14"
@@ -39,6 +53,17 @@
         </Border>
 
         <Grid Grid.Row="2"
+              ColumnDefinitions="*,Auto"
+              ColumnSpacing="10">
+            <Picker x:Name="GamesPicker"
+                    Title="Mes parties"
+                    SelectedIndexChanged="OnGameSelected" />
+            <Button Grid.Column="1"
+                    Text="Recharger"
+                    Clicked="OnReloadGamesClicked" />
+        </Grid>
+
+        <Grid Grid.Row="3"
               HorizontalOptions="Center"
               VerticalOptions="Center"
               WidthRequest="330"
@@ -58,7 +83,7 @@
             <Button x:Name="Cell8" Grid.Row="2" Grid.Column="2" Clicked="OnCellClicked" />
         </Grid>
 
-        <Button Grid.Row="3"
+        <Button Grid.Row="4"
                 Text="Nouvelle partie"
                 Clicked="OnNewGameClicked"
                 HorizontalOptions="Fill" />
